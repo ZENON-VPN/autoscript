@@ -5,26 +5,6 @@ Premium autoscript installer used to install SSH, STUNNEL, OVPN, and PPTP VPN on
 _________________________________________________
 # วิธีติดตั้ง
 
-- **Centos 6 x86 & x64**
-```
-yum -y update && yum -y install wget && wget https://raw.githubusercontent.com/ZENON-VPN/autoscript/master/centos6.sh && chmod +x centos6.sh && ./centos6.sh && rm -f centos6.sh && history -c
-```
-
-_________________________________________________
-
-- **Centos 7 (OVPN not included)**
-```
-yum -y update && yum -y install wget && wget https://raw.githubusercontent.com/ZENON-VPN/autoscript/master/centos7.sh && chmod +x centos7.sh && ./centos7.sh && rm -f centos7.sh && history -c
-```
-
-_________________________________________________
-
-- **Debian 7 x86 & x64**
-```
-apt-get -y install wget && wget https://raw.githubusercontent.com/ZENON-VPN/autoscript/master/deb7.sh && chmod +x deb7.sh && ./deb7.sh && rm -f deb7.sh && history -c
-```
-
-_________________________________________________
 
 - **Debian 8 x86 & x64**
 ```
@@ -74,7 +54,7 @@ apt-get -y install wget && wget https://raw.githubusercontent.com/ZENON-VPN/auto
 __________________________________________________
 **NOTE**
 
- -ZENON-VPM.ML-
+ -ZENON-VPM.NET-
  
  **TimeZone**   :  Thailand
 ___________________________________________________
