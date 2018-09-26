@@ -24,18 +24,18 @@ apt-get -y install wget && wget https://raw.githubusercontent.com/ZENON-VPN/auto
 
 - Webmin - http://VPSIP:10000/
 
-- VnStat - http://VPSIP:85/vpnstat/
+- VnStat - http://VPSIPvpnstat/
 
-- MRTG - http://VPSIP:85/mrtg/
+- MRTG - http://VPSIP/mrtg/
 
-- OVPN Config - http://VPSIP:85/client.ovpn | http://VPSIP:85/openvpn.tar.gz or http://VPSIP:85/client.tar for Centos
+- OVPN Config - http://VPSIP/client.ovpn | http://VPSIP/openvpn.tar.gz or http://VPSIP/client.tar for Centos
 
 
 ### Service and Port Informations:
 
 - OpenVPN : TCP 1194
 
-- OpenSSH : 22 & 143
+- OpenSSH : 22 & 443
 
 - Stunnel/4 : 443
 
@@ -47,7 +47,7 @@ apt-get -y install wget && wget https://raw.githubusercontent.com/ZENON-VPN/auto
 
 - Badvpn : 7300
 
-- Nginx : 85
+- Nginx : 80
 
 
 
