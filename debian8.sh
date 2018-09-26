@@ -1,9 +1,6 @@
 #!/bin/sh
 # Modified by Ekkachai Chompoowiset
 
-
-
-
 #Requirement
 if [ ! -e /usr/bin/curl ]; then
     apt-get -y update && apt-get -y upgrade
@@ -573,7 +570,7 @@ echo "   - Stunnel4    : 443"  | tee -a log-install.txt
 echo "   - Dropbear    : 109, 110, 442"  | tee -a log-install.txt
 echo "   - Squid Proxy : 80, 3128, 8000, 8080 (limit to IP Server)"  | tee -a log-install.txt
 echo "   - Badvpn      : 7300"  | tee -a log-install.txt
-echo "   - Nginx       : 85"  | tee -a log-install.txt
+echo "   - Nginx       : 80"  | tee -a log-install.txt
 echo "   - PPTP VPN    : 1732"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Server Tools"  | tee -a log-install.txt
@@ -590,11 +587,11 @@ echo "   Explanation of scripts and VPS setup" | tee -a log-install.txt
 echo "   follow this link: https://www.zenon-vpn.net"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Important Information"  | tee -a log-install.txt
-echo "   - Download Config OpenVPN : http://$MYIP:85/client.ovpn"  | tee -a log-install.txt
-echo "     Mirror (*.tar.gz)       : http://$MYIP:85/openvpn.tar.gz"  | tee -a log-install.txt
+echo "   - Download Config OpenVPN : http://$MYIP/client.ovpn"  | tee -a log-install.txt
+echo "     Mirror (*.tar.gz)       : http://$MYIP/openvpn.tar.gz"  | tee -a log-install.txt
 echo "   - Webmin                  : http://$MYIP:10000/"  | tee -a log-install.txt
-echo "   - Vnstat                  : http://$MYIP:85/vnstat/"  | tee -a log-install.txt
-echo "   - MRTG                    : http://$MYIP:85/mrtg/"  | tee -a log-install.txt
+echo "   - Vnstat                  : http://$MYIP/vnstat/"  | tee -a log-install.txt
+echo "   - MRTG                    : http://$MYIP/mrtg/"  | tee -a log-install.txt
 echo "   - Installation Log        : cat /root/log-install.txt"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "----------- Script Created By Steven Indarto(fb.com/ekkachai.2541) ------------"
