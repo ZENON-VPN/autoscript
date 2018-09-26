@@ -24,7 +24,7 @@ apt-get -y install wget && wget https://raw.githubusercontent.com/ZENON-VPN/auto
 
 - Webmin - http://VPSIP:10000/
 
-- VnStat - http://VPSIPvpnstat/
+- VnStat - http://VPSIP/vpnstat/
 
 - MRTG - http://VPSIP/mrtg/
 
