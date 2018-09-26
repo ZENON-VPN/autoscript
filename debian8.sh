@@ -595,4 +595,4 @@ echo "   - MRTG                    : http://$MYIP/mrtg/"  | tee -a log-install.t
 echo "   - Installation Log        : cat /root/log-install.txt"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "----------- Script Created By Steven Indarto(fb.com/ekkachai.2541) ------------"
-echo "-------------------" Modified by FB : Ekkachai Chompoowiset -------------------"
+echo "-------------------- Modified by FB : Ekkachai Chompoowiset -------------------"
