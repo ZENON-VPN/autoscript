@@ -1,6 +1,8 @@
 #!/bin/sh
-# Created by https://www.hostingtermurah.net
-# Modified by 0123456
+# Modified by Ekkachai Chompoowiset
+
+
+
 
 #Requirement
 if [ ! -e /usr/bin/curl ]; then
@@ -32,8 +34,8 @@ sed -i '$ i\echo "nameserver 8.8.4.4" >> /etc/resolv.conf' /etc/rc.local
 # install wget and curl
 apt-get update;apt-get -y install wget curl;
 
-# set time GMT +8
-ln -fs /usr/share/zoneinfo/Asia/Manila /etc/localtime
+# set time GMT +7
+ln -fs /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
 # set repo
 cat > /etc/apt/sources.list <<END2
@@ -79,7 +81,7 @@ service vnstat restart
 
 # install screenfetch
 cd
-wget -O /usr/bin/screenfetch "https://raw.githubusercontent.com/daybreakersx/premscript/master/screenfetch"
+wget -O /usr/bin/screenfetch "https://raw.githubusercontent.com/ZENON-VPN/autoscript/master/screenfetch"
 chmod +x /usr/bin/screenfetch
 echo "clear" >> .profile
 echo "screenfetch" >> .profile
@@ -129,7 +131,7 @@ http {
 }
 END3
 mkdir -p /home/vps/public_html
-wget -O /home/vps/public_html/index.html "http://script.hostingtermurah.net/repo/index.html"
+wget -O /home/vps/public_html/index.html "https://raw.githubusercontent.com/ZENON-VPN/autoscript/master/index.html"
 echo "<?php phpinfo(); ?>" > /home/vps/public_html/info.php
 args='$args'
 uri='$uri'
@@ -137,7 +139,7 @@ document_root='$document_root'
 fastcgi_script_name='$fastcgi_script_name'
 cat > /etc/nginx/conf.d/vps.conf <<END4
 server {
-  listen       85;
+  listen       /;
   server_name  127.0.0.1 localhost;
   access_log /var/log/nginx/vps-access.log;
   error_log /var/log/nginx/vps-error.log error;
@@ -215,7 +217,6 @@ http_access allow manager localhost
 http_access deny manager
 http_access allow localhost
 http_access deny all
-http_port 8888
 http_port 8080
 http_port 8000
 http_port 80
@@ -232,19 +233,19 @@ service squid3 restart
 
 # install stunnel4
 apt-get -y install stunnel4
-wget -O /etc/stunnel/stunnel.pem "https://raw.githubusercontent.com/daybreakersx/premscript/master/updates/stunnel.pem"
-wget -O /etc/stunnel/stunnel.conf "https://raw.githubusercontent.com/daybreakersx/premscript/master/req/stunnel.conf"
+wget -O /etc/stunnel/stunnel.pem "https://raw.githubusercontent.com/ZENON-VPN/autoscript/master/updates/stunnel.pem"
+wget -O /etc/stunnel/stunnel.conf "https://raw.githubusercontent.com/ZENON-VPN/autoscript/master/req/stunnel.conf"
 sed -i $MYIP2 /etc/stunnel/stunnel.conf
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 service stunnel4 restart
 
 # install webmin
 cd
-wget "https://prdownloads.sourceforge.net/webadmin/webmin_1.881_all.deb"
-dpkg --install webmin_1.881_all.deb;
+wget "http://script.hostingtermurah.net/repo/webmin_1.801_all.deb"
+dpkg --install webmin_1.801_all.deb;
 apt-get -y -f install;
 sed -i 's/ssl=1/ssl=0/g' /etc/webmin/miniserv.conf
-rm /root/webmin_1.881_all.deb
+rm /root/webmin_1.801_all.deb
 service webmin restart
 service vnstat restart
 
@@ -264,14 +265,10 @@ nodefaultroute
 lock
 nobsdcomp
 END
-
-cat > /etc/pptpd.conf <<END
-option /etc/ppp/pptpd-options
-logwtmp
-localip 10.1.0.1
-remoteip 10.1.0.5-100
-END
-
+echo "option /etc/ppp/pptpd-options" > /etc/pptpd.conf
+echo "logwtmp" >> /etc/pptpd.conf
+echo "localip 10.1.0.1" >> /etc/pptpd.conf
+echo "remoteip 10.1.0.5-100" >> /etc/pptpd.conf
 cat >> /etc/ppp/ip-up <<END
 ifconfig ppp0 mtu 1400
 END
@@ -279,8 +276,8 @@ mkdir /var/lib/premium-script
 /etc/init.d/pptpd restart
 
 # install mrtg
-wget -O /etc/snmp/snmpd.conf "https://raw.githubusercontent.com/daybreakersx/premscript/master/snmpd.conf"
-wget -O /root/mrtg-mem.sh "https://raw.githubusercontent.com/daybreakersx/premscript/master/mrtg-mem.sh"
+wget -O /etc/snmp/snmpd.conf "https://raw.githubusercontent.com/ZENON-VPN/autoscript/master/snmpd.conf"
+wget -O /root/mrtg-mem.sh "https://raw.githubusercontent.com/ZENON-VPN/autoscript/master/mrtg-mem.sh"
 chmod +x /root/mrtg-mem.sh
 cd /etc/snmp/
 sed -i 's/TRAPDRUN=no/TRAPDRUN=yes/g' /etc/default/snmpd
@@ -302,13 +299,13 @@ apt-get -y install openvpn easy-rsa openssl iptables
 cp -r /usr/share/easy-rsa/ /etc/openvpn
 mkdir /etc/openvpn/easy-rsa/keys
 # replace bits
-sed -i 's|export KEY_COUNTRY="US"|export KEY_COUNTRY="ID"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_COUNTRY="US"|export KEY_COUNTRY="PH"|' /etc/openvpn/easy-rsa/vars
 sed -i 's|export KEY_PROVINCE="CA"|export KEY_PROVINCE="Albay"|' /etc/openvpn/easy-rsa/vars
 sed -i 's|export KEY_CITY="SanFrancisco"|export KEY_CITY="Legazpi"|' /etc/openvpn/easy-rsa/vars
 sed -i 's|export KEY_ORG="Fort-Funston"|export KEY_ORG="IIEE"|' /etc/openvpn/easy-rsa/vars
 sed -i 's|export KEY_EMAIL="me@myhost.mydomain"|export KEY_EMAIL="rdbtx123@gmail.com"|' /etc/openvpn/easy-rsa/vars
 sed -i 's|export KEY_OU="MyOrganizationalUnit"|export KEY_OU="daybreakersx"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_NAME="EasyRSA"|export KEY_NAME="server"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_NAME="EasyRSA"|export KEY_NAME="daybreakersx"|' /etc/openvpn/easy-rsa/vars
 sed -i 's|export KEY_OU=changeme|export KEY_OU=daybreakersx|' /etc/openvpn/easy-rsa/vars
 #Create Diffie-Helman Pem
 openssl dhparam -out /etc/openvpn/dh2048.pem 2048
@@ -373,6 +370,7 @@ cat > /home/vps/public_html/client.ovpn <<-END
 client
 dev tun
 proto tcp
+remote $MYIP 1194
 persist-key
 persist-tun
 dev tun
@@ -392,8 +390,9 @@ script-security 2
 route 0.0.0.0 0.0.0.0
 route-method exe
 route-delay 2
-remote $MYIP 1194
 cipher AES-128-CBC
+http-proxy $MYIP 8080
+http-proxy-retry
 
 END
 echo '<ca>' >> /home/vps/public_html/client.ovpn
@@ -434,9 +433,9 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 sed -i 's|#net.ipv4.ip_forward=1|net.ipv4.ip_forward=1|' /etc/sysctl.conf
 
 # install badvpn
-wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/daybreakersx/premscript/master/badvpn-udpgw"
+wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/ZENON-VPN/autoscript/master/badvpn-udpgw"
 if [ "$OS" == "x86_64" ]; then
-  wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/daybreakersx/premscript/master/badvpn-udpgw64"
+  wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/ZENON-VPN/autoscript/master/badvpn-udpgw64"
 fi
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
 chmod +x /usr/bin/badvpn-udpgw
@@ -453,7 +452,7 @@ rm -rf /root/master.zip
 
 # setting banner
 rm /etc/issue.net
-wget -O /etc/issue.net "https://raw.githubusercontent.com/daybreakersx/premscript/master/issue.net"
+wget -O /etc/issue.net "https://raw.githubusercontent.com/ZENON-VPN/autoscript/master/issue.net"
 sed -i 's@#Banner@Banner@g' /etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 service ssh restart
@@ -461,30 +460,63 @@ service dropbear restart
 
 #Setting IPtables
 cat > /etc/iptables.up.rules <<-END
-*filter
-:FORWARD ACCEPT [0:0]
-:INPUT ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
--A FORWARD -i eth0 -o ppp0 -m state --state RELATED,ESTABLISHED -j ACCEPT
--A FORWARD -i ppp0 -o eth0 -j ACCEPT
--A OUTPUT -d 23.66.241.170 -j DROP
--A OUTPUT -d 23.66.255.37 -j DROP
--A OUTPUT -d 23.66.255.232 -j DROP
--A OUTPUT -d 23.66.240.200 -j DROP
--A OUTPUT -d 128.199.213.5 -j DROP
--A OUTPUT -d 128.199.149.194 -j DROP
--A OUTPUT -d 128.199.196.170 -j DROP
--A OUTPUT -d 103.52.146.66 -j DROP
--A OUTPUT -d 5.189.172.204 -j DROP
-COMMIT
-
 *nat
 :PREROUTING ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
+-A POSTROUTING -j SNAT --to-source xxxxxxxxx
 -A POSTROUTING -o eth0 -j MASQUERADE
 -A POSTROUTING -s 192.168.100.0/24 -o eth0 -j MASQUERADE
 -A POSTROUTING -s 10.1.0.0/24 -o eth0 -j MASQUERADE
+COMMIT
+
+*filter
+:INPUT ACCEPT [19406:27313311]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [9393:434129]
+:fail2ban-ssh - [0:0]
+-A FORWARD -i eth0 -o ppp0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -i ppp0 -o eth0 -j ACCEPT
+-A INPUT -p tcp -m multiport --dports 22 -j fail2ban-ssh
+-A INPUT -p ICMP --icmp-type 8 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 53 -j ACCEPT
+-A INPUT -p tcp --dport 22  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 80  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 85  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 80  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 80  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 142  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 143  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 109  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 110  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 443  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 1194  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 1194  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 1732  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 1732  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 3128  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 3128  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 7300  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 7300  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 8000  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 8000  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 8080  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 8080  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 10000  -m state --state NEW -j ACCEPT
+-A fail2ban-ssh -j RETURN
+COMMIT
+
+*raw
+:PREROUTING ACCEPT [158575:227800758]
+:OUTPUT ACCEPT [46145:2312668]
+COMMIT
+
+*mangle
+:PREROUTING ACCEPT [158575:227800758]
+:INPUT ACCEPT [158575:227800758]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [46145:2312668]
+:POSTROUTING ACCEPT [46145:2312668]
 COMMIT
 END
 sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
@@ -493,7 +525,7 @@ iptables-restore < /etc/iptables.up.rules
 
 # download script
 cd
-wget https://raw.githubusercontent.com/daybreakersx/premscript/master/updates/install-premiumscript.sh -O - -o /dev/null|sh
+wget https://raw.githubusercontent.com/ZENON-VPN/autoscript/master/updates/install-premiumscript.sh -O - -o /dev/null|sh
 
 # finalizing
 apt-get -y autoremove
@@ -520,14 +552,14 @@ echo " "
 echo "Installation has been completed!!"
 echo " "
 echo "--------------------------- Configuration Setup Server -------------------------"
-echo "                         Copyright HostingTermurah.net                          "
-echo "                        https://www.hostingtermurah.net                         "
-echo "               Created By Steven Indarto(fb.com/stevenindarto2)                 "
-echo "                                Modified by 0123456                             "
+echo "                          Copyright www.zenon-vpn.net                           "
+echo "                           https://www.zenon-vpn.net                            "
+echo "                 Created By Steven Indarto(fb.com/ekkachai.2541)                "
+echo "                      Modified by FB : Ekkachai Chompoowiset                    "
 echo "--------------------------------------------------------------------------------"
 echo ""  | tee -a log-install.txt
 echo "Server Information"  | tee -a log-install.txt
-echo "   - Timezone    : Asia/Manila (GMT +8)"  | tee -a log-install.txt
+echo "   - Timezone    : Asia/Bangkok (GMT +7)"  | tee -a log-install.txt
 echo "   - Fail2Ban    : [ON]"  | tee -a log-install.txt
 echo "   - Dflate      : [ON]"  | tee -a log-install.txt
 echo "   - IPtables    : [ON]"  | tee -a log-install.txt
@@ -539,7 +571,7 @@ echo "   - OpenVPN     : TCP 1194 "  | tee -a log-install.txt
 echo "   - OpenSSH     : 22, 143"  | tee -a log-install.txt
 echo "   - Stunnel4    : 443"  | tee -a log-install.txt
 echo "   - Dropbear    : 109, 110, 442"  | tee -a log-install.txt
-echo "   - Squid Proxy : 80, 3128, 8000, 8080, 8888 (limit to IP Server)"  | tee -a log-install.txt
+echo "   - Squid Proxy : 80, 3128, 8000, 8080 (limit to IP Server)"  | tee -a log-install.txt
 echo "   - Badvpn      : 7300"  | tee -a log-install.txt
 echo "   - Nginx       : 85"  | tee -a log-install.txt
 echo "   - PPTP VPN    : 1732"  | tee -a log-install.txt
@@ -555,7 +587,7 @@ echo "Premium Script Information"  | tee -a log-install.txt
 echo "   To display list of commands: menu"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "   Explanation of scripts and VPS setup" | tee -a log-install.txt
-echo "   follow this link: http://bit.ly/penjelasansetup"  | tee -a log-install.txt
+echo "   follow this link: https://www.zenon-vpn.net"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Important Information"  | tee -a log-install.txt
 echo "   - Download Config OpenVPN : http://$MYIP:85/client.ovpn"  | tee -a log-install.txt
@@ -565,5 +597,5 @@ echo "   - Vnstat                  : http://$MYIP:85/vnstat/"  | tee -a log-inst
 echo "   - MRTG                    : http://$MYIP:85/mrtg/"  | tee -a log-install.txt
 echo "   - Installation Log        : cat /root/log-install.txt"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
-echo "----------- Script Created By Steven Indarto(fb.com/stevenindarto2) ------------"
-echo "------------------------------ Modified by 0123456 -----------------------------"
+echo "----------- Script Created By Steven Indarto(fb.com/ekkachai.2541) ------------"
+echo "-------------------" Modified by FB : Ekkachai Chompoowiset -------------------"
