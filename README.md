@@ -54,7 +54,7 @@ apt-get -y install wget && wget https://raw.githubusercontent.com/ZENON-VPN/auto
 __________________________________________________
 **NOTE**
 
- -ZENON-VPM.NET-
+ -ZENON-VPN.NET-
  
  **TimeZone**   :  Thailand
 ___________________________________________________
